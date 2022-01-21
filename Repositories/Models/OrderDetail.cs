@@ -8,14 +8,13 @@ namespace Repositories.Models
     public class OrderDetail
     {
         private static int NextId = 0;
-        private int _id;
 
         public OrderDetail()
         {
-            _id = NextId++;
+            Id = NextId++;
         }
 
-        public int Id { get => _id; }
+        public int Id { get; private set; }
         public int OrderId { get; set; }
         public string ProductName { get; set; }
         public decimal Price { get; set; }

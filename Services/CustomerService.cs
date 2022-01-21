@@ -29,17 +29,12 @@ namespace Services
 
         public IEnumerable<CustomerOrder> GetOrdersByCustomerId(int customerId)
         {
-            var customerOrders = new List<CustomerOrder>();
-
-            foreach(var orderItem in customerRepository.GetCustomerOrders(customerId))
+            return customerRepository.GetCustomerOrders(customerId).Select(orderItem => new CustomerOrder
             {
-                var customerOrder = new CustomerOrder { 
-                    Id = orderItem.Id,
-                    CustomerId = orderItem.CustomerId,
-                    OrderDate = orderItem.OrderDate,
-                };
-
-                customerOrder.OrderDetails = customerRepository.GetOrderDetailByOrderId(orderItem.Id)
+                Id = orderItem.Id,
+                CustomerId = orderItem.CustomerId,
+                OrderDate = orderItem.OrderDate,
+                OrderDetails = customerRepository.GetOrderDetailByOrderId(orderItem.Id)
                     .Select(orderDetail => new CustomerOrderDetail
                     {
                         Id = orderDetail.Id,
@@ -47,12 +42,8 @@ namespace Services
                         Price = orderDetail.Price,
                         ProductName = orderDetail.ProductName,
                         Quantity = orderDetail.Quantity
-                    }).ToList();   
-
-                customerOrders.Add(customerOrder);
-            }
-
-            return customerOrders;
+                    }).ToList()
+            });
         }
     }
 }

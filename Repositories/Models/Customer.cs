@@ -8,14 +8,13 @@ namespace Repositories.Models
     public class Customer
     {
         private static int NextId = 0;
-        private int _id;
 
         public Customer()
         {
-            _id = NextId++;
+            Id = NextId++;
         }
 
-        public int Id { get => _id; }
+        public int Id { get; private set; }
         public string Name { get; set; }
     }
 }
